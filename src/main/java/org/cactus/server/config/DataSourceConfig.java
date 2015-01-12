@@ -1,24 +1,15 @@
 package org.cactus.server.config;
 
 import org.apache.commons.dbcp2.BasicDataSource;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
-import org.springframework.orm.jpa.JpaVendorAdapter;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
 
 @Configuration
-@PropertySource("classpath:org/cactus/server/properties/db.properties")
 @ComponentScan(basePackages = "org.cactus.server")
+@PropertySource("classpath:org/cactus/server/properties/db.properties")
 public class DataSourceConfig {
 
     @Resource
@@ -43,29 +34,5 @@ public class DataSourceConfig {
         return ds;
     }
 
-    @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-        em.setDataSource(dataSource());
-        em.setPackagesToScan("org.cactus.entity");
-
-        JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        em.setJpaVendorAdapter(vendorAdapter);
-        em.setJpaProperties(getHibernateProperties());
-
-        return em;
-    }
-
-    private Properties getHibernateProperties() {
-        try {
-            Properties properties = new Properties();
-            InputStream is = getClass().getClassLoader().getResourceAsStream("org/cactus/server/properties/hibernate.properties");
-            properties.load(is);
-
-            return properties;
-        } catch (IOException e) {
-            throw new IllegalArgumentException("Can't find 'hibernate.properties' in classpath", e);
-        }
-    }
 
 }
