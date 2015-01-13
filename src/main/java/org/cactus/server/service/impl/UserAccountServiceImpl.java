@@ -12,6 +12,10 @@ public class UserAccountServiceImpl implements UserAccountService {
 
     @Override
     public UserAccount getByLogin(String login) {
+        UserAccount userAccount = new UserAccount();
+        userAccount.getLogin();
+        //TODO: check, if userAccount true and auth him
+
         return userAccountRepository.findByLogin(login);
     }
 }
