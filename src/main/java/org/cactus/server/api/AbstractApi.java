@@ -8,7 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 public abstract class AbstractApi {
 
     //TODO remote server
-    private final static String contextURL = "http://localhost:8080/cactus-server";
+    private final static String contextURL = "http://localhost:8080/server";
 
     protected static String build(String... params){
         StringBuilder builder = new StringBuilder(contextURL);
