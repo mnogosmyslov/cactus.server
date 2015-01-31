@@ -1,5 +1,6 @@
 package org.cactus.server.entity;
 
+import org.cactus.server.entity.enums.UserAccountRoleEnum;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -26,6 +27,11 @@ public class UserAccount implements Serializable {
 
     @Column(name = "photo")
     private String photo;
+
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role")
+    private UserAccountRoleEnum role;
 
     public long getId() {
         return id;
@@ -65,5 +71,13 @@ public class UserAccount implements Serializable {
 
     public void setPhoto(String photo) {
         this.photo = photo;
+    }
+
+    public UserAccountRoleEnum getRole() {
+        return role;
+    }
+
+    public void setRole(UserAccountRoleEnum role) {
+        this.role = role;
     }
 }

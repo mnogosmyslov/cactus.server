@@ -4,10 +4,14 @@ public class UserAccountApi extends AbstractApi {
 
     public static final String USER = "/user";
 
-    public static final String ID = "/{id}";
+    public static final String BY_ID = "/{id}";
+    public static final String BY_LOGIN = "/getUserByLogin/{login}";
+    public static final String AUTHENTICATE = "/authenticate/{email}";
 
     public static class URL {
-        public static String GET_BY_ID = build(USER, ID);
+        public static String GET_BY_ID = build(USER, BY_ID);
+        public static String GET_BY_LOGIN = build(USER, BY_LOGIN);
+        public static String USER_AUTHENTICATE = build(USER, AUTHENTICATE);
     }
 
 }

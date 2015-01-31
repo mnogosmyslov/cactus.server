@@ -17,10 +17,16 @@ public class UserAccountController {
     @Autowired
     private UserAccountService userAccountService;
 
-    @RequestMapping(value = UserAccountApi.ID, method = RequestMethod.GET)
+    @RequestMapping(value = UserAccountApi.BY_ID, method = RequestMethod.GET)
     public UserAccount getUser(@PathVariable long id){
         Assert.notNull(id);
         return userAccountService.getById(id);
+    }
+
+    @RequestMapping(value = UserAccountApi.BY_LOGIN, method = RequestMethod.GET)
+    public UserAccount getUserByLogin(@PathVariable String login){
+        Assert.notNull(login);
+        return userAccountService.getByLogin(login);
     }
 
 }
