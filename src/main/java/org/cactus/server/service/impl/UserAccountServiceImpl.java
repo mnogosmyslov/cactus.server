@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class UserAccountServiceImpl implements UserAccountService {
@@ -23,4 +25,25 @@ public class UserAccountServiceImpl implements UserAccountService {
     public UserAccount getByLogin(String login) {
         return userAccountRepository.findByLogin(login);
     }
+
+	@Override
+	public UserAccount createUserAccount(UserAccount userAccount) {
+		return userAccountRepository.save(userAccount);
+	}
+
+	@Override
+	public UserAccount updateUserAccount(UserAccount userAccount) {
+		userAccountRepository.delete(userAccountRepository.findByLogin(userAccount.getLogin()));
+		return userAccountRepository.save(userAccount);
+	}
+
+	@Override
+	public void deleteUserAccount(long id) {
+		userAccountRepository.delete(id);
+	}
+
+	@Override
+	public List<UserAccount> getAllUserAccount() {
+		return userAccountRepository.findAll();
+	}
 }
