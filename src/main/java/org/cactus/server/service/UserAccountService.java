@@ -9,7 +9,6 @@ public interface UserAccountService {
 
     UserAccount getById(long id);
     UserAccount getByLogin(String login);
-
 	UserAccount createUserAccount(UserAccount userAccount);
 	UserAccount updateUserAccount(UserAccount userAccount);
 	void deleteUserAccount(long id);
