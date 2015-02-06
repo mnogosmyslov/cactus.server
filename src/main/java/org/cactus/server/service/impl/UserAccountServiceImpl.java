@@ -33,8 +33,9 @@ public class UserAccountServiceImpl implements UserAccountService {
 
 	@Override
 	public UserAccount updateUserAccount(UserAccount userAccount) {
-		userAccountRepository.delete(userAccountRepository.findByLogin(userAccount.getLogin()));
-		return userAccountRepository.save(userAccount);
+		return userAccountRepository.updateUser(userAccount.getId(), userAccount.getEmail(),
+												userAccount.getLogin(), userAccount.getPassword(),
+												userAccount.getPhoto());
 	}
 
 	@Override

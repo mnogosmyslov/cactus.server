@@ -45,8 +45,7 @@ public class UserAccountController {
 	@RequestMapping(value = UserAccountApi.BY_ID, method = RequestMethod.PUT,
 			headers = "Content-Type=application/json")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void updateUser(@PathVariable long id, @RequestBody UserAccount userAccount) {
-		Assert.notNull(id);
+	public void updateUser(@RequestBody UserAccount userAccount) {
 		Assert.notNull(userAccount);
 		userAccountService.updateUserAccount(userAccount);
 	}
