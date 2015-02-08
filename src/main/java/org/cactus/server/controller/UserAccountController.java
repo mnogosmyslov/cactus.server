@@ -17,7 +17,7 @@ public class UserAccountController {
     @Autowired
     private UserAccountService userAccountService;
 
-	@RequestMapping(method = RequestMethod.POST,
+	@RequestMapping(value = UserAccountApi.USER + "/new", method = RequestMethod.POST,
 			headers = "Content-Type=application/json")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public UserAccount createUser(@RequestBody UserAccount userAccount) {
@@ -42,7 +42,7 @@ public class UserAccountController {
         return userAccountService.getByLogin(login);
     }
 
-	@RequestMapping(value = UserAccountApi.BY_ID, method = RequestMethod.PUT,
+	@RequestMapping(value = UserAccountApi.BY_ID + "/edit", method = RequestMethod.PUT,
 			headers = "Content-Type=application/json")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void updateUser(@RequestBody UserAccount userAccount) {
