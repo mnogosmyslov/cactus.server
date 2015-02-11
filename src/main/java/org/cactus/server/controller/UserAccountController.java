@@ -17,7 +17,7 @@ public class UserAccountController {
     @Autowired
     private UserAccountService userAccountService;
 
-	@RequestMapping(value = UserAccountApi.USER + "/new", method = RequestMethod.POST,
+	@RequestMapping(value = "/new", method = RequestMethod.POST,
 			headers = "Content-Type=application/json")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public UserAccount createUser(@RequestBody UserAccount userAccount) {
