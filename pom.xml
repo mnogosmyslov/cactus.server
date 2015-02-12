@@ -23,9 +23,18 @@
         <commons-dbcp2.version>2.0.1</commons-dbcp2.version>
         <apache.commons>3.3.2</apache.commons>
         <spring-orm.version>4.1.2.RELEASE</spring-orm.version>
+        <spring-security-core.version>3.2.5.RELEASE</spring-security-core.version>
+        <org.cactus.share.version>1.0</org.cactus.share.version>
+        <hessian.version>4.0.38</hessian.version>
     </properties>
 
     <dependencies>
+        <!-- Local -->
+        <dependency>
+            <groupId>org.cactus</groupId>
+            <artifactId>org.cactus.share</artifactId>
+            <version>${org.cactus.share.version}</version>
+        </dependency>
 
         <!-- MVC -->
         <dependency>
@@ -122,6 +131,18 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>${apache.commons}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>${spring-security-core.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.caucho</groupId>
+            <artifactId>hessian</artifactId>
+            <version>${hessian.version}</version>
         </dependency>
 
     </dependencies>
