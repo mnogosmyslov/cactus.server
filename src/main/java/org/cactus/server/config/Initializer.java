@@ -9,6 +9,7 @@ public class Initializer extends AbstractAnnotationConfigDispatcherServletInitia
         return new Class<?>[] {
                 DatabaseConfig.class,
                 DataSourceConfig.class,
+                RemountingServicesConfig.class,
                 WebConfig.class
         };
     }
