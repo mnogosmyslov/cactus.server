@@ -11,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
+@Transactional
 @Service(ServiceNames.USER_ACCOUNT_SERVICE)
 @RemoteService(serviceInterface = UserAccountService.class)
 public class UserAccountServiceImpl implements UserAccountService {
@@ -46,20 +48,20 @@ public class UserAccountServiceImpl implements UserAccountService {
         return userAccountTransformer.transform(userAccount);
     }
 
-//    @Override
-//    public UserAccountVO createUserAccount(UserAccountVO userAccount) {
-//        UserAccount user = userAccountTransformer.transform(userAccount);
-//
-//        return userAccountRepository.save(user);
-//    }
-//
-//    @Override
-//    public UserAccountVO updateUserAccount(UserAccountVO userAccount) {
-//        UserAccount user = userAccountTransformer.transform(userAccount);
-//
-//        return userAccountRepository.updateUser(userAccount.getId(), userAccount.getEmail(),
-//                userAccount.getLogin(), userAccount.getPassword(), userAccount.getPhoto());
-//    }
+    @Override
+    public UserAccountVO createUserAccount(UserAccountVO userAccount) {
+        UserAccount user = userAccountTransformer.transform(userAccount);
+        userAccountRepository.save(user);
+	    return userAccountTransformer.transform(user);
+    }
+
+    @Override
+    public UserAccountVO updateUserAccount(UserAccountVO userAccount) {
+        UserAccount user = userAccountTransformer.transform(userAccount);
+        userAccountRepository.updateUser(userAccount.getId(), userAccount.getEmail(),
+                userAccount.getLogin(), userAccount.getPassword(), userAccount.getPhoto());
+	    return userAccountTransformer.transform(user);
+    }
 
     @Override
     public void deleteUserAccount(long id) {
