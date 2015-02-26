@@ -1,7 +1,6 @@
 package org.cactus.server.entity;
 
 import org.cactus.share.enums.UserAccountRoleEnum;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,10 +10,9 @@ import java.io.Serializable;
 public class UserAccount implements Serializable {
 
     @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name="increment", strategy="increment")
-    @Column(name = "id", length = 6, nullable = false)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", unique = true, nullable = false)
+    private Long id;
 
     @Column(name = "email", nullable = false, unique = true)
     private String email;
@@ -32,11 +30,11 @@ public class UserAccount implements Serializable {
     @Column(name = "role")
     private UserAccountRoleEnum role;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

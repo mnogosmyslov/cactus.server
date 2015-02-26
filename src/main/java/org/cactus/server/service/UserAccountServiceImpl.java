@@ -7,6 +7,7 @@ import org.cactus.server.utils.service.RemoteService;
 import org.cactus.share.common.ServiceNames;
 import org.cactus.share.service.UserAccountService;
 import org.cactus.share.vo.UserAccountVO;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -49,10 +50,15 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
 
     @Override
-    public UserAccountVO createUserAccount(UserAccountVO userAccount) {
-        UserAccount user = userAccountTransformer.transform(userAccount);
-        userAccountRepository.save(user);
-	    return userAccountTransformer.transform(user);
+    public void createUserAccount(UserAccountVO userAccountVO) {
+	    Session session = HibernateUtil.getSessionFactory().openSession();
+
+	    session.beginTransaction();
+
+	    UserAccount user = userAccountTransformer.transform(userAccountVO);
+	    session.save(user);
+
+	    session.getTransaction().commit();
     }
 
     @Override

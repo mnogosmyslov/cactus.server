@@ -51,7 +51,7 @@ public class DatabaseConfig {
 		return new DataSourceTransactionManager(dataSource);
 	}
 
-    private Properties getHibernateProperties() {
+    public Properties getHibernateProperties() {
         try {
             Properties properties = new Properties();
             InputStream is = getClass().getClassLoader().getResourceAsStream("org/cactus/server/properties/hibernate.properties");
