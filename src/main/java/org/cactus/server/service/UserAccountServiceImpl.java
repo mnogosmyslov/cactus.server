@@ -5,6 +5,7 @@ import org.cactus.server.repository.UserAccountRepository;
 import org.cactus.server.transformer.UserAccountTransformer;
 import org.cactus.server.utils.service.RemoteService;
 import org.cactus.share.common.ServiceNames;
+import org.cactus.share.enums.UserAccountRoleEnum;
 import org.cactus.share.service.UserAccountService;
 import org.cactus.share.vo.UserAccountVO;
 import org.hibernate.Session;
@@ -56,6 +57,8 @@ public class UserAccountServiceImpl implements UserAccountService {
 	    session.beginTransaction();
 
 	    UserAccount user = userAccountTransformer.transform(userAccountVO);
+	    user.setPhoto("http://localhost:8080/cactus/resources/tmp/photo.png");
+	    user.setRole(UserAccountRoleEnum.ROLE_USER);
 	    session.save(user);
 
 	    session.getTransaction().commit();
