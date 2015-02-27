@@ -1,5 +1,6 @@
 package org.cactus.server.service;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.cactus.server.entity.UserAccount;
 import org.cactus.server.repository.UserAccountRepository;
 import org.cactus.server.transformer.UserAccountTransformer;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import javax.transaction.Transactional;
+import java.sql.SQLException;
 import java.util.List;
 
 @Transactional
@@ -51,30 +53,59 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
 
     @Override
-    public void createUserAccount(UserAccountVO userAccountVO) {
-	    Session session = HibernateUtil.getSessionFactory().openSession();
+    public void createUserAccount(UserAccountVO userAccountVO) throws SQLException	{
+	    Session session = null;
+	    try {
+		    session = HibernateUtil.getSessionFactory().openSession();
+		    session.beginTransaction();
+		    UserAccount user = userAccountTransformer.transform(userAccountVO);
+		    user.setPassword(DigestUtils.sha1Hex(userAccountVO.getPassword()));
+		    user.setPhoto("http://localhost:8080/cactus/resources/tmp/photo.png");
+		    user.setRole(UserAccountRoleEnum.ROLE_USER);
+		    session.save(user);
+		    session.getTransaction().commit();
+	    } catch (Exception e) {
+		    e.printStackTrace();
+	    } finally {
+		    if (session != null && session.isOpen()) {
+			    session.close();
+		    }
+	    }
+    }
 
-	    session.beginTransaction();
-
+    @Override
+    public void updateUserAccount(UserAccountVO userAccountVO) throws SQLException {
 	    UserAccount user = userAccountTransformer.transform(userAccountVO);
-	    user.setPhoto("http://localhost:8080/cactus/resources/tmp/photo.png");
-	    user.setRole(UserAccountRoleEnum.ROLE_USER);
-	    session.save(user);
-
-	    session.getTransaction().commit();
+	    Session session = null;
+	    try {
+		    session = HibernateUtil.getSessionFactory().openSession();
+		    session.beginTransaction();
+		    session.update(user);
+		    session.getTransaction().commit();
+	    } catch (Exception e) {
+		    e.printStackTrace();
+	    } finally {
+		    if (session != null && session.isOpen()) {
+			    session.close();
+		    }
+	    }
     }
 
     @Override
-    public UserAccountVO updateUserAccount(UserAccountVO userAccount) {
-        UserAccount user = userAccountTransformer.transform(userAccount);
-        userAccountRepository.updateUser(userAccount.getId(), userAccount.getEmail(),
-                userAccount.getLogin(), userAccount.getPassword(), userAccount.getPhoto());
-	    return userAccountTransformer.transform(user);
-    }
-
-    @Override
-    public void deleteUserAccount(long id) {
-        userAccountRepository.delete(id);
+    public void deleteUserAccount(long id) throws SQLException {
+	    Session session = null;
+	    try {
+		    session = HibernateUtil.getSessionFactory().openSession();
+		    session.beginTransaction();
+		    session.delete(getById(id));
+		    session.getTransaction().commit();
+	    } catch (Exception e) {
+		    e.printStackTrace();
+	    } finally {
+		    if (session != null && session.isOpen()) {
+			    session.close();
+		    }
+	    }
     }
 
     @Override
