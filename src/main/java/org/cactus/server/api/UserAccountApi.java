@@ -3,6 +3,7 @@ package org.cactus.server.api;
 public class UserAccountApi extends AbstractApi {
 
     public static final String USER = "/user";
+    public static final String NEW = "/new";
 
     public static final String BY_ID = "/{id}";
     public static final String BY_LOGIN = "/getUserByLogin/{login}";
