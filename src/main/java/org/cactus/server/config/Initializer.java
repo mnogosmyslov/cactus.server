@@ -10,7 +10,8 @@ public class Initializer extends AbstractAnnotationConfigDispatcherServletInitia
                 DatabaseConfig.class,
                 DataSourceConfig.class,
                 RemountingServicesConfig.class,
-                WebConfig.class
+                WebConfig.class,
+                WebSocketConfig.class
         };
     }
 
