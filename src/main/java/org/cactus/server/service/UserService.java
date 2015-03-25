@@ -5,7 +5,6 @@ import org.cactus.server.entity.UserAccount;
 import java.sql.SQLException;
 import java.util.List;
 
-
 public interface UserService {
 
     UserAccount getAccount(String email);
