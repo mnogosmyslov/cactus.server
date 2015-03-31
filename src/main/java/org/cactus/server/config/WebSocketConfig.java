@@ -9,7 +9,7 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 
 @Configuration
 @EnableWebSocketMessageBroker
-@ComponentScan(basePackages = "org.cactus.messenger.controller")
+@ComponentScan(basePackages = "org.cactus.server.controller")
 public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
     @Override
