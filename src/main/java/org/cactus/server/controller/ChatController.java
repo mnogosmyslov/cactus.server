@@ -17,7 +17,7 @@ public class ChatController {
     @SendTo("/conversation")
     // TODO: Use entity, when Mongo will be ready
     public MessageVO sendMessage(MessageVO messageVO) {
-        if(messageVO.getDate()!=null){
+        if(messageVO.getDate()==null){
             messageVO.setDate(new Date());
         }
         return messageVO;
