@@ -2,7 +2,6 @@ package org.cactus.server.controller;
 
 import org.cactus.server.api.ChatApi;
 import org.cactus.share.vo.MessageVO;
-import org.cactus.share.vo.OutputMessageVO;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,8 +16,11 @@ public class ChatController {
     @MessageMapping("/chat")
     @SendTo("/conversation")
     // TODO: Use entity, when Mongo will be ready
-    public OutputMessageVO sendMessage(MessageVO messageVO) {
-        return new OutputMessageVO(messageVO, new Date());
+    public MessageVO sendMessage(MessageVO messageVO) {
+        if(messageVO.getDate()!=null){
+            messageVO.setDate(new Date());
+        }
+        return messageVO;
     }
 
 }
