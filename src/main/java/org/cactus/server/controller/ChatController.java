@@ -7,8 +7,6 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Date;
-
 @RestController
 @RequestMapping(ChatApi.CHAT)
 public class ChatController {
@@ -17,9 +15,9 @@ public class ChatController {
     @SendTo("/conversation")
     // TODO: Use entity, when Mongo will be ready
     public MessageVO sendMessage(MessageVO messageVO) {
-        if(messageVO.getDate()==null){
-            messageVO.setDate(new Date());
-        }
+//        if(messageVO.getDate()==null){
+//            messageVO.setDate(new Date());
+//        }
         return messageVO;
     }
 

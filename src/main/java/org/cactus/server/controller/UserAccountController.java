@@ -2,7 +2,7 @@ package org.cactus.server.controller;
 
 import org.cactus.server.api.UserAccountApi;
 import org.cactus.server.entity.UserAccount;
-import org.cactus.server.service.UserService;
+import org.cactus.server.service.UserAccountServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.Assert;
@@ -16,7 +16,7 @@ import java.util.List;
 public class UserAccountController {
 
     @Autowired
-    private UserService userAccountService;
+    private UserAccountServiceImpl userAccountService;
 
     @RequestMapping(value = UserAccountApi.BY_ID, method = RequestMethod.GET)
     public UserAccount getUser(@PathVariable long id){

@@ -4,6 +4,8 @@ import org.cactus.share.enums.UserAccountRoleEnum;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -23,12 +25,20 @@ public class UserAccount implements Serializable {
     @Column(name = "login", unique = true)
     private String login;
 
+    @Column(name = "name", nullable = true)
+    private String name;
+
     @Column(name = "photo")
     private String photo;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private UserAccountRoleEnum role;
+
+    @ElementCollection
+    @Embedded
+    @Column(name = "contacts", nullable = true)
+    private Set<UserAccount> contacts = new HashSet<UserAccount>();
 
     public Long getId() {
         return id;
@@ -62,6 +72,14 @@ public class UserAccount implements Serializable {
         this.login = login;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getPhoto() {
         return photo;
     }
@@ -76,5 +94,13 @@ public class UserAccount implements Serializable {
 
     public void setRole(UserAccountRoleEnum role) {
         this.role = role;
+    }
+
+    public Set<UserAccount> getContacts() {
+        return contacts;
+    }
+
+    public void setContacts(Set<UserAccount> contacts) {
+        this.contacts = contacts;
     }
 }
