@@ -15,6 +15,7 @@ public class UserAccountTransformer extends AbstractTransformer<UserAccount,User
         type.setPassword(vo.getPassword());
         type.setRole(vo.getRole());
         type.setLogin(vo.getLogin());
+        type.setName(vo.getName());
 
         return type;
     }
@@ -27,6 +28,7 @@ public class UserAccountTransformer extends AbstractTransformer<UserAccount,User
         vo.setPassword(type.getPassword());
         vo.setRole(type.getRole());
         vo.setLogin(type.getLogin());
+        vo.setName(type.getName());
 
         return vo;
     }

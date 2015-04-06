@@ -14,7 +14,7 @@ public class SpringMongoConfig {
 
 	public @Bean
 	MongoDbFactory mongoDbFactory() throws Exception {
-		return new SimpleMongoDbFactory(new MongoClient("127.0.0.1", 27017), "hoodydb");
+		return new SimpleMongoDbFactory(new MongoClient("127.0.0.1", 27017), "cactusdb");
 	}
 
 	public @Bean

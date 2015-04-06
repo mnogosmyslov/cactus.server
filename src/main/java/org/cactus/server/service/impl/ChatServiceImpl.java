@@ -2,13 +2,10 @@ package org.cactus.server.service.impl;
 
 import org.cactus.server.entity.Chat;
 import org.cactus.server.service.ChatService;
-import org.cactus.server.utils.service.HibernateUtil;
+import org.cactus.server.service.HibernateUtil;
 import org.hibernate.Session;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import javax.transaction.Transactional;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

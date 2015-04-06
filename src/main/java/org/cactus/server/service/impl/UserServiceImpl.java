@@ -2,19 +2,20 @@ package org.cactus.server.service.impl;
 
 import org.cactus.server.entity.UserAccount;
 import org.cactus.server.repository.UserAccountRepository;
-import org.cactus.server.utils.service.HibernateUtil;
-import org.cactus.server.service.UserAccountServiceImpl;
+import org.cactus.server.service.HibernateUtil;
+import org.cactus.server.service.UserService;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @Service
 @Transactional
-public class UserServiceImpl implements UserAccountServiceImpl {
+public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserAccountRepository userAccountRepository;
@@ -36,12 +37,12 @@ public class UserServiceImpl implements UserAccountServiceImpl {
     }
 
     @Override
-    public void createUserAccount(UserAccount userAccount)	{
+    public void createUserAccount(UserAccount userAccount) throws SQLException	{
         userAccountRepository.save(userAccount);
     }
 
     @Override
-    public void updateUserAccount(UserAccount userAccount) {
+    public void updateUserAccount(UserAccount userAccount) throws SQLException {
         Session session = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
@@ -58,7 +59,7 @@ public class UserServiceImpl implements UserAccountServiceImpl {
     }
 
     @Override
-    public void deleteUserAccount(long id) {
+    public void deleteUserAccount(long id) throws SQLException {
         Session session = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
