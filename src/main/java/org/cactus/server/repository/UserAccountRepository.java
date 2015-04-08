@@ -20,5 +20,7 @@ public interface UserAccountRepository extends JpaRepository<UserAccount, Long> 
 	                       @Param("login") String login, @Param("password") String password,
 	                       @Param("photo") String photo);
 
+	@Query("select u from UserAccount u where u.login = :login and u.password = :password")
+	UserAccount getAuth(@Param("login") String login, @Param("password") String password);
 
 }

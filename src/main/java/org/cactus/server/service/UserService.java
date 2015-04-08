@@ -14,5 +14,6 @@ public interface UserService {
     void updateUserAccount(UserAccount userAccount) throws SQLException;
     void deleteUserAccount(long id) throws SQLException;
     List getAllUserAccount();
+    UserAccount getAuthUser(String login, String password);
 
 }

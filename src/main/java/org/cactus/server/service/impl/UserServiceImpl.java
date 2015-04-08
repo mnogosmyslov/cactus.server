@@ -79,4 +79,11 @@ public class UserServiceImpl implements UserService {
     public List<UserAccount> getAllUserAccount() {
         return userAccountRepository.findAll();
     }
+
+    @Override
+    public UserAccount getAuthUser(String login, String password) {
+        UserAccount userAccount = userAccountRepository.getAuth(login, password);
+
+        return userAccount;
+    }
 }

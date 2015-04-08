@@ -56,4 +56,12 @@ public class UserAccountController {
     public List getAllUser() {
         return userAccountService.getAllUserAccount();
     }
+
+    @RequestMapping(value = "/getauth/{login}/{password}", method = RequestMethod.GET)
+    public UserAccount getAuth(@PathVariable String login, @PathVariable String password){
+        Assert.notNull(login);
+        Assert.notNull(password);
+
+        return userAccountService.getAuthUser(login, password);
+    }
 }
