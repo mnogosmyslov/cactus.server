@@ -57,11 +57,12 @@ public class UserAccountController {
         return userAccountService.getAllUserAccount();
     }
 
-    @RequestMapping(value = "/getauth/{login}/{password}", method = RequestMethod.GET)
+    @RequestMapping(value = UserAccountApi.GET_AUTH, method = RequestMethod.GET, headers = "Accept=application/json")
     public UserAccount getAuth(@PathVariable String login, @PathVariable String password){
         Assert.notNull(login);
         Assert.notNull(password);
 
+        // TODO: return http status if bad request
         return userAccountService.getAuthUser(login, password);
     }
 }
