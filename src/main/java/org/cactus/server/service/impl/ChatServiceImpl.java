@@ -4,12 +4,14 @@ import org.cactus.server.entity.Chat;
 import org.cactus.server.service.ChatService;
 import org.cactus.server.service.HibernateUtil;
 import org.hibernate.Session;
+import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Transactional
+@Service
 public class ChatServiceImpl implements ChatService {
 	private static final Logger log = Logger.getLogger(ChatServiceImpl.class.getName());
 
