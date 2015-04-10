@@ -1,5 +1,6 @@
 package org.cactus.server.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.cactus.share.enums.UserAccountRoleEnum;
 
 import javax.persistence.*;
@@ -56,6 +57,7 @@ public class UserAccount implements Serializable {
         this.email = email;
     }
 
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
@@ -88,6 +90,7 @@ public class UserAccount implements Serializable {
         this.photo = photo;
     }
 
+    @JsonIgnore
     public UserAccountRoleEnum getRole() {
         return role;
     }
@@ -96,6 +99,7 @@ public class UserAccount implements Serializable {
         this.role = role;
     }
 
+    @JsonIgnore //TODO: if get contacts: HTTP Status 500 - failed to lazily initialize a collection of role: org.cactus.server.entity.UserAccount.contacts, could not initialize proxy - no Session (through reference chain: org.cactus.server.entity.UserAccount["contacts"])
     public Set<UserAccount> getContacts() {
         return contacts;
     }
