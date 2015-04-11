@@ -18,6 +18,14 @@ public class UserAccountController {
     @Autowired
     private UserService userAccountService;
 
+    @ResponseBody
+    @RequestMapping(value = "/search/{login}", method = RequestMethod.GET)
+    public UserAccount searchUser(@PathVariable String login) {
+        Assert.notNull(login);
+        UserAccount userAccount = userAccountService.getByLogin(login);
+        return userAccount;
+    }
+
     @RequestMapping(value = UserAccountApi.BY_ID, method = RequestMethod.GET)
     public UserAccount getUser(@PathVariable long id){
         Assert.notNull(id);
