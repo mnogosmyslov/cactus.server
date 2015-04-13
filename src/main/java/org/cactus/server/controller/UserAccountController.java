@@ -5,6 +5,8 @@ import org.cactus.server.entity.UserAccount;
 import org.cactus.server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.ui.ModelMap;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
@@ -66,11 +68,16 @@ public class UserAccountController {
     }
 
     @RequestMapping(value = UserAccountApi.GET_AUTH, method = RequestMethod.GET, headers = "Accept=application/json")
-    public UserAccount getAuth(@PathVariable String login, @PathVariable String password){
+    public ResponseEntity<UserAccount> getAuth(@PathVariable String login, @PathVariable String password, ModelMap model){
+
         Assert.notNull(login);
         Assert.notNull(password);
+        UserAccount userAccount = userAccountService.getAuthUser(login, password);
+        if (userAccount != null) {
+            return new ResponseEntity<UserAccount>(userAccount, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<UserAccount>(HttpStatus.UNAUTHORIZED);
+        }
 
-        // TODO: return http status if bad request
-        return userAccountService.getAuthUser(login, password);
     }
 }
