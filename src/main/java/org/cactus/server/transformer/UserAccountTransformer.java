@@ -1,11 +1,18 @@
 package org.cactus.server.transformer;
 
 import org.cactus.server.entity.UserAccount;
+import org.cactus.server.repository.UserAccountRepository;
+import org.cactus.server.service.HibernateUtil;
 import org.cactus.share.vo.UserAccountVO;
+import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UserAccountTransformer extends AbstractTransformer<UserAccount,UserAccountVO> {
+
+    @Autowired
+    private UserAccountRepository userAccountRepository;
 
     @Override
     protected UserAccount populateType(UserAccountVO vo) {
@@ -16,6 +23,13 @@ public class UserAccountTransformer extends AbstractTransformer<UserAccount,User
         type.setRole(vo.getRole());
         type.setLogin(vo.getLogin());
         type.setName(vo.getName());
+        type.setPhoto(vo.getPhoto());
+
+        if (!vo.getContacts().isEmpty()) {
+            for (Long id : vo.getContacts()) {
+                type.getContacts().add(id);
+            }
+        }
 
         return type;
     }
@@ -29,6 +43,26 @@ public class UserAccountTransformer extends AbstractTransformer<UserAccount,User
         vo.setRole(type.getRole());
         vo.setLogin(type.getLogin());
         vo.setName(type.getName());
+        vo.setPhoto(type.getPhoto());
+
+        Session session = null;
+
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            UserAccount userAccount = (UserAccount) session.get(UserAccount.class, type.getId());
+
+            if (userAccount.getContacts().isEmpty()) {
+                vo.getContacts().add(null);
+            } else {
+                vo.getContacts().addAll(userAccount.getContacts());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
 
         return vo;
     }

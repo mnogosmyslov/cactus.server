@@ -31,6 +31,8 @@ public class HibernateUtil {
             cfg.setProperty("show_sql", "true");
             cfg.setProperty("hibernate.hbm2ddl.auto", "update");
 
+            cfg.setProperty("hibernate.enable_lazy_load_no_trans", "true");
+
             //add our annotated class
             cfg.addAnnotatedClass(Chat.class).addAnnotatedClass(UserAccount.class);
 
