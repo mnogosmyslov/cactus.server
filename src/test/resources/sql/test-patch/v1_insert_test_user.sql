@@ -4,7 +4,7 @@ INSERT INTO users(id, email, login, name, password, photo) VALUES(
     'test',
     'test',
     'b1b3773a05c0ed0176787a4f1574ff0075f7521e',
-    'http://localhost:8080/cactus/pages/resources/tmp/photo.png'
+    'http://localhost:8080/cactus/resources/tmp/photo.png'
 );
 
 INSERT INTO users(id, email, login, name, password, photo) VALUES(
@@ -13,7 +13,7 @@ INSERT INTO users(id, email, login, name, password, photo) VALUES(
     'rodrigo19',
     'test',
     'b1b3773a05c0ed0176787a4f1574ff0075f7521e',
-    'http://localhost:8080/cactus/pages/resources/tmp/photo.png'
+    'http://localhost:8080/cactus/resources/tmp/photo.png'
 );
 
 INSERT INTO users(id, email, login, name, password, photo) VALUES(
@@ -22,5 +22,5 @@ INSERT INTO users(id, email, login, name, password, photo) VALUES(
     'udenfox',
     'test',
     'b1b3773a05c0ed0176787a4f1574ff0075f7521e',
-    'http://localhost:8080/cactus/pages/resources/tmp/photo.png'
+    'http://localhost:8080/cactus/resources/tmp/photo.png'
 );
