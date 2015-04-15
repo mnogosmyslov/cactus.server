@@ -37,9 +37,21 @@ public class UserAccount implements Serializable {
     private UserAccountRoleEnum role;
 
     @ElementCollection
-    @Embedded
+    @JoinTable(name = "useraccount_contacts",
+            joinColumns = @JoinColumn(name = "useraccount_id"))
     @Column(name = "contacts", nullable = true)
-    private Set<UserAccount> contacts = new HashSet<UserAccount>();
+    private Set<Long> contacts = new HashSet<Long>(0);
+
+    public UserAccount() { }
+
+    public UserAccount(String email, String password, String login, String name, Set<Long> contacts, String photo) {
+        this.email = email;
+        this.password = password;
+        this.login = login;
+        this.name = name;
+        this.contacts = contacts;
+        this.photo = photo;
+    }
 
     public Long getId() {
         return id;
@@ -100,11 +112,11 @@ public class UserAccount implements Serializable {
     }
 
     @JsonIgnore //TODO: if get contacts: HTTP Status 500 - failed to lazily initialize a collection of role: org.cactus.server.entity.UserAccount.contacts, could not initialize proxy - no Session (through reference chain: org.cactus.server.entity.UserAccount["contacts"])
-    public Set<UserAccount> getContacts() {
+    public Set<Long> getContacts() {
         return contacts;
     }
 
-    public void setContacts(Set<UserAccount> contacts) {
+    public void setContacts(Set<Long> contacts) {
         this.contacts = contacts;
     }
 }

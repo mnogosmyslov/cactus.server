@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Set;
+
 public interface UserAccountRepository extends JpaRepository<UserAccount, Long> {
 
     @Query("select u from UserAccount u where u.login = :login")
@@ -23,4 +25,6 @@ public interface UserAccountRepository extends JpaRepository<UserAccount, Long> 
 	@Query("select u from UserAccount u where u.login = :login and u.password = :password")
 	UserAccount getAuth(@Param("login") String login, @Param("password") String password);
 
+//	@Query("select u.contacts from UserAccount u where u.useraccount_id = :id")
+//	Set<Long> returnContacts(@Param("id") Long id);
 }
