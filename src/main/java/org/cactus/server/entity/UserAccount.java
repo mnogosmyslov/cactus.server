@@ -111,7 +111,6 @@ public class UserAccount implements Serializable {
         this.role = role;
     }
 
-    @JsonIgnore //TODO: if get contacts: HTTP Status 500 - failed to lazily initialize a collection of role: org.cactus.server.entity.UserAccount.contacts, could not initialize proxy - no Session (through reference chain: org.cactus.server.entity.UserAccount["contacts"])
     public Set<Long> getContacts() {
         return contacts;
     }

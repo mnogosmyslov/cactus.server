@@ -1,20 +1,26 @@
 package org.cactus.server.entity;
 
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import javax.persistence.Id;
 
-@Document
+@Document(collection = "Message")
 public class Message {
 	@Id
 	private String id;
+	@Field("messageId")
+	private int messageId;
+	@Field("authorId")
 	private long authorId;
+	@Field("date")
 	private long date;
+	@Field("content")
 	private String content;
+	@Field("viewed")
 	private boolean viewed;
 
-	public Message() {
-	}
+	public Message() {}
 
 	public Message(long authorId, String content) {
 		this.authorId = authorId;
@@ -34,6 +40,14 @@ public class Message {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public int getMessageId() {
+		return messageId;
+	}
+
+	public void setMessageId(int messageId) {
+		this.messageId = messageId;
 	}
 
 	public long getAuthorId() {

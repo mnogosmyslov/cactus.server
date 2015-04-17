@@ -21,7 +21,7 @@ public class UserAccountController {
     private UserService userAccountService;
 
     @ResponseBody
-    @RequestMapping(value = "/search/{login}", method = RequestMethod.GET)
+    @RequestMapping(value = "/search/{login}", method = RequestMethod.POST)
     public UserAccount searchUser(@PathVariable String login) {
         Assert.notNull(login);
         UserAccount userAccount = userAccountService.getByLogin(login);

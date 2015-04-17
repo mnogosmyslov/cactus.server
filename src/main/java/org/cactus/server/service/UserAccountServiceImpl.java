@@ -51,6 +51,14 @@ public class UserAccountServiceImpl implements UserAccountService {
         return userAccountTransformer.transform(userAccount);
     }
 
+	@Override
+	public UserAccountVO getUserWithoutPass(String login) {
+		UserAccount userAccount = userAccountRepository.findByLogin(login);
+		userAccount.setPassword(null);
+
+		return userAccountTransformer.transform(userAccount);
+	}
+
     @Override
     public void createUserAccount(UserAccountVO userAccountVO) throws SQLException	{
 	    Session session = null;
