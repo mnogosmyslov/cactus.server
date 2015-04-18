@@ -118,5 +118,26 @@ public class UserAccountServiceImpl implements UserAccountService {
     public List<UserAccount> getAllUserAccount() {
         return userAccountRepository.findAll();
     }
+
+	@Override
+	public void addContact(long id, String login) {
+
+		Session session = null;
+
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			UserAccount userAccount = (UserAccount) session.get(UserAccount.class, id);
+			userAccount.getContacts().add(userAccountRepository.findByLogin(login).getId());
+			session.beginTransaction();
+			session.update(userAccount);
+			session.getTransaction().commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+	}
 }
 

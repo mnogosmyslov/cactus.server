@@ -25,9 +25,20 @@ public class UserAccountTransformer extends AbstractTransformer<UserAccount,User
         type.setName(vo.getName());
         type.setPhoto(vo.getPhoto());
 
-        if (!vo.getContacts().isEmpty()) {
-            for (Long id : vo.getContacts()) {
-                type.getContacts().add(id);
+        Session session = null;
+
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            UserAccountVO userAccountVO = (UserAccountVO) session.get(UserAccountVO.class, vo.getId());
+
+            if (!userAccountVO.getContacts().isEmpty()) {
+                type.getContacts().addAll(userAccountVO.getContacts());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
             }
         }
 
@@ -51,9 +62,7 @@ public class UserAccountTransformer extends AbstractTransformer<UserAccount,User
             session = HibernateUtil.getSessionFactory().openSession();
             UserAccount userAccount = (UserAccount) session.get(UserAccount.class, type.getId());
 
-            if (userAccount.getContacts().isEmpty()) {
-                vo.getContacts().add(null);
-            } else {
+            if (!userAccount.getContacts().isEmpty()) {
                 vo.getContacts().addAll(userAccount.getContacts());
             }
         } catch (Exception e) {
