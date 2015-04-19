@@ -75,21 +75,6 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-//    @Override
-//    public void addContacts(String login, String contact) {
-//        Session session = null;
-//        try {
-//            session = HibernateUtil.getSessionFactory().openSession();
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            if (session != null && session.isOpen()) {
-//                session.close();
-//            }
-//        }
-//    }
-
     @Override
     public List<UserAccount> getAllUserAccount() {
         return userAccountRepository.findAll();
