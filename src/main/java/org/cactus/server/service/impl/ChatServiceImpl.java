@@ -65,7 +65,7 @@ public class ChatServiceImpl implements ChatService {
 		Session session = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-			chat = (Chat) session.load(Chat.class, id);
+			chat = (Chat) session.get(Chat.class, id);
 			log.log(Level.INFO, "Getting Chat successful...");
 		} catch (Exception e) {
 			e.printStackTrace();
