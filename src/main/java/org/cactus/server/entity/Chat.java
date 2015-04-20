@@ -8,6 +8,7 @@ import java.util.Set;
 @Entity
 @Table(name = "Chat")
 public class Chat implements Serializable {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "chatId", unique = true, nullable = false)
@@ -17,7 +18,7 @@ public class Chat implements Serializable {
 	private String chatName;
 
 	@ElementCollection
-	@Embedded
+	@ManyToMany(fetch = FetchType.LAZY)
 	@Column(name = "members")
 	private Set<UserAccount> members = new HashSet<UserAccount>();
 
@@ -68,4 +69,5 @@ public class Chat implements Serializable {
 	public void setSecure(boolean secure) {
 		this.secure = secure;
 	}
+
 }

@@ -7,7 +7,6 @@ import org.hibernate.Session;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Transactional
@@ -17,7 +16,7 @@ public class ChatServiceImpl implements ChatService {
 
 	@Override
 	public void addChat(Chat chat) {
-		log.log(Level.INFO, "Persisting Chat instance ...");
+//		log.log(Level.INFO, "Persisting Chat instance ...");
 
 		Session session = null;
 
@@ -27,10 +26,10 @@ public class ChatServiceImpl implements ChatService {
 			session.save(chat);
 			session.getTransaction().commit();
 
-			log.log(Level.INFO, "Persist Chat successful...");
+//			log.log(Level.INFO, "Persist Chat successful...");
 		} catch (Exception e) {
 			e.printStackTrace();
-			log.log(Level.SEVERE, "Persist Chat failed...", e);
+//			log.log(Level.SEVERE, "Persist Chat failed...", e);
 		} finally {
 			if (session != null && session.isOpen()) {
 				session.close();
@@ -40,17 +39,17 @@ public class ChatServiceImpl implements ChatService {
 
 	@Override
 	public void updateChat(Chat chat) {
-		log.log(Level.INFO, "Updating Chat instance ...");
+//		log.log(Level.INFO, "Updating Chat instance ...");
 		Session session = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
 			session.update(chat);
 			session.getTransaction().commit();
-			log.log(Level.INFO, "Updating Chat successful...");
+//			log.log(Level.INFO, "Updating Chat successful...");
 		} catch (Exception e) {
 			e.printStackTrace();
-			log.log(Level.SEVERE, "Updating Chat failed...", e);
+//			log.log(Level.SEVERE, "Updating Chat failed...", e);
 		} finally {
 			if (session != null && session.isOpen()) {
 				session.close();
@@ -60,16 +59,16 @@ public class ChatServiceImpl implements ChatService {
 
 	@Override
 	public Chat getChat(Long id) {
-		log.log(Level.INFO, "Getting Chat instance ...");
+//		log.log(Level.INFO, "Getting Chat instance ...");
 		Chat chat = null;
 		Session session = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
 			chat = (Chat) session.get(Chat.class, id);
-			log.log(Level.INFO, "Getting Chat successful...");
+//			log.log(Level.INFO, "Getting Chat successful...");
 		} catch (Exception e) {
 			e.printStackTrace();
-			log.log(Level.SEVERE, "Getting Chat failed...", e);
+//			log.log(Level.SEVERE, "Getting Chat failed...", e);
 		} finally {
 			if (session != null && session.isOpen()) {
 				session.close();
@@ -80,17 +79,17 @@ public class ChatServiceImpl implements ChatService {
 
 	@Override
 	public void deleteChat(Long id) {
-		log.log(Level.INFO, "Deleting Chat instance ...");
+//		log.log(Level.INFO, "Deleting Chat instance ...");
 		Session session = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
 			session.delete(session.load(Chat.class, id));
 			session.getTransaction().commit();
-			log.log(Level.INFO, "Deleting Chat successful...");
+//			log.log(Level.INFO, "Deleting Chat successful...");
 		} catch (Exception e) {
 			e.printStackTrace();
-			log.log(Level.SEVERE, "Deleting Chat failed...", e);
+//			log.log(Level.SEVERE, "Deleting Chat failed...", e);
 		} finally {
 			if (session != null && session.isOpen()) {
 				session.close();

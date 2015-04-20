@@ -7,16 +7,22 @@ import javax.persistence.Id;
 
 @Document(collection = "Message")
 public class Message {
+
 	@Id
 	private String id;
+
 	@Field("messageId")
 	private int messageId;
+
 	@Field("authorId")
 	private long authorId;
+
 	@Field("date")
 	private long date;
+
 	@Field("content")
 	private String content;
+
 	@Field("viewed")
 	private boolean viewed;
 
