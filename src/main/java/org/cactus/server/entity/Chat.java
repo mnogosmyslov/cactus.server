@@ -11,7 +11,7 @@ public class Chat implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "chatId", unique = true, nullable = false)
-	private String chatId;
+	private Long chatId;
 
 	@Column(name = "chatName")
 	private String chatName;
@@ -29,11 +29,11 @@ public class Chat implements Serializable {
 	public Chat() {
 	}
 
-	public String getChatId() {
+	public Long getChatId() {
 		return chatId;
 	}
 
-	public void setChatId(String chatId) {
+	public void setChatId(Long chatId) {
 		this.chatId = chatId;
 	}
 

@@ -27,7 +27,7 @@ public class HibernateUtil {
             cfg.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQL9Dialect");
             cfg.setProperty("hibernate.connection.url", "jdbc:postgresql://localhost:5432/cactusdb");
             cfg.setProperty("hibernate.connection.username", "postgres");
-            cfg.setProperty("hibernate.connection.password", "root");
+            cfg.setProperty("hibernate.connection.password", "root"); //gl9HSx7EbVmJ
             cfg.setProperty("show_sql", "true");
             cfg.setProperty("hibernate.hbm2ddl.auto", "update");
 
