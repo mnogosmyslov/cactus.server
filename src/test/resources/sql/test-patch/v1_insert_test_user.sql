@@ -8,7 +8,7 @@ INSERT INTO users(id, email, login, name, password, photo) VALUES(
 );
 
 INSERT INTO users(id, email, login, name, password, photo) VALUES(
-    999,
+    1001,
     'test@mail.com',
     'test',
     'test',
