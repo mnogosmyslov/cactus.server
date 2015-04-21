@@ -28,4 +28,3 @@ INSERT INTO chat_users(chat_chatid, members_id) VALUES(
     1001
 );
 
-
