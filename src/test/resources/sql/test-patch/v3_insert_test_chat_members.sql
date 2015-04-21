@@ -15,6 +15,16 @@ INSERT INTO chat_users(chat_chatid, members_id) VALUES(
 
 INSERT INTO chat_users(chat_chatid, members_id) VALUES(
     101,
+    1000
+);
+
+INSERT INTO chat_users(chat_chatid, members_id) VALUES(
+    102,
+    1000
+);
+
+INSERT INTO chat_users(chat_chatid, members_id) VALUES(
+    102,
     1001
 );
 
