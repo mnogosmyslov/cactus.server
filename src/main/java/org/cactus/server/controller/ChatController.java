@@ -4,7 +4,6 @@ import org.cactus.server.api.ChatApi;
 import org.cactus.server.entity.Chat;
 import org.cactus.server.entity.UserAccount;
 import org.cactus.server.service.ChatService;
-import org.cactus.server.service.UserService;
 import org.cactus.share.vo.MessageVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -21,9 +20,6 @@ import java.util.*;
 @RestController
 @RequestMapping(ChatApi.CHAT)
 public class ChatController {
-
-    @Autowired
-    private UserService userAccountService;
 
     @Autowired
     private ChatService chatService;
@@ -48,12 +44,12 @@ public class ChatController {
     public void chatReveived(org.springframework.messaging.Message msg, @Payload MessageVO message,
                              @DestinationVariable("chatID") long chatID) {
         Chat chat = chatService.getChat(chatID);
-        Set<UserAccount> membersSet = chat.getMembers();
+        Set<UserAccount> members = chat.getMembers();
 
         Map<String, Object> headers = new HashMap<>();
         headers.put("chatID", String.valueOf(chatID));
 
-        for (UserAccount user : membersSet) {
+        for (UserAccount user : members) {
             messagingTemplate.convertAndSend("/chat/" + user.getLogin(), message, headers);
         }
 

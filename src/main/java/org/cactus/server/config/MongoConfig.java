@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 
 @Configuration
-public class SpringMongoConfig {
+public class MongoConfig {
 
 	public @Bean
 	MongoDbFactory mongoDbFactory() throws Exception {
@@ -20,8 +20,7 @@ public class SpringMongoConfig {
 	public @Bean
 	MongoTemplate mongoTemplate() throws Exception {
 
-		MongoTemplate mongoTemplate = new MongoTemplate(mongoDbFactory());
-		return mongoTemplate;
+		return new MongoTemplate(mongoDbFactory());
 
 	}
 

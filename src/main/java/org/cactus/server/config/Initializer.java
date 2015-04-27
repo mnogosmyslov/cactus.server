@@ -11,7 +11,8 @@ public class Initializer extends AbstractAnnotationConfigDispatcherServletInitia
                 DataSourceConfig.class,
                 RemountingServicesConfig.class,
                 WebConfig.class,
-                WebSocketConfig.class
+                WebSocketConfig.class,
+                MongoConfig.class
         };
     }
 
