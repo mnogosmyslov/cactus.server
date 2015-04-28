@@ -120,8 +120,14 @@ public class UserAccountServiceImpl implements UserAccountService {
 			session = HibernateUtil.getSessionFactory().openSession();
 			UserAccount userAccount = (UserAccount) session.get(UserAccount.class, id);
 			userAccount.getContacts().add(userAccountRepository.findByLogin(login).getId());
+
+//			two-sided added contact
+			UserAccount userAccount2 = (UserAccount) session.get(UserAccount.class, userAccountRepository.findByLogin(login).getId());
+			userAccount2.getContacts().add(id);
+
 			session.beginTransaction();
 			session.update(userAccount);
+			session.update(userAccount2);
 			session.getTransaction().commit();
 		} catch (Exception e) {
 			e.printStackTrace();
