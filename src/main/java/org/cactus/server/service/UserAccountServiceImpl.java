@@ -4,10 +4,12 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.cactus.server.entity.UserAccount;
 import org.cactus.server.repository.UserAccountRepository;
 import org.cactus.server.transformer.UserAccountTransformer;
+import org.cactus.server.transformer.UserTransformer;
 import org.cactus.server.utils.service.RemoteService;
 import org.cactus.share.common.ServiceNames;
 import org.cactus.share.service.UserAccountService;
 import org.cactus.share.vo.UserAccountVO;
+import org.cactus.share.vo.UserVO;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,9 @@ public class UserAccountServiceImpl implements UserAccountService {
 
     @Autowired
     private UserAccountTransformer userAccountTransformer;
+
+	@Autowired
+	private UserTransformer userTransformer;
 
     @Override
     public UserAccountVO getAccount(String email) {
@@ -51,6 +56,12 @@ public class UserAccountServiceImpl implements UserAccountService {
 
         return userAccountTransformer.transform(userAccount);
     }
+
+	@Override
+	public UserVO getUserVOByLogin(String login) {
+		UserAccount userAccount = userAccountRepository.findByLogin(login);
+		return userTransformer.transform(userAccount);
+	}
 
     @Override
     public void createUserAccount(UserAccountVO userAccountVO) throws SQLException	{
@@ -139,13 +150,14 @@ public class UserAccountServiceImpl implements UserAccountService {
 		}
 	}
 
-	public HashSet getAllContacts(UserAccountVO userAccountVO) {
+	public HashSet getAllContacts(UserVO userVO) {
 		Session session = null;
-		HashSet<UserAccountVO> contacts = new HashSet<UserAccountVO>();
+		HashSet<UserVO> contacts = new HashSet<UserVO>();
 
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-			for (Long id : userAccountVO.getContacts()) {
+			UserAccount userAccount = (UserAccount) session.get(UserAccount.class, userVO.getId());
+			for (Long id : userAccount.getContacts()) {
 				contacts.add(userAccountTransformer.transform(userAccountRepository.findOne(id)));
 			}
 		} catch (Exception e) {

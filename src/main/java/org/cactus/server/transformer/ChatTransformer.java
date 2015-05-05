@@ -4,7 +4,7 @@ import org.cactus.server.entity.Chat;
 import org.cactus.server.entity.UserAccount;
 import org.cactus.server.service.HibernateUtil;
 import org.cactus.share.vo.ChatVO;
-import org.cactus.share.vo.UserAccountVO;
+import org.cactus.share.vo.UserVO;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 public class ChatTransformer extends AbstractTransformer<Chat, ChatVO> {
 
 	@Autowired
-	UserAccountTransformer userAccountTransformer;
+	UserTransformer userTransformer;
 
 	@Override
 	protected Chat populateType (ChatVO vo) {
@@ -24,8 +24,8 @@ public class ChatTransformer extends AbstractTransformer<Chat, ChatVO> {
 		type.setSecure(vo.isSecure());
 
 		if (!vo.getMembers().isEmpty()) {
-			for (UserAccountVO userAccountVO : vo.getMembers()) {
-				type.getMembers().add(userAccountTransformer.populateType(userAccountVO));
+			for (UserVO userVO : vo.getMembers()) {
+				type.getMembers().add(userTransformer.populateType(userVO));
 			}
 		}
 
@@ -47,7 +47,7 @@ public class ChatTransformer extends AbstractTransformer<Chat, ChatVO> {
 			Chat chat = (Chat) session.get(Chat.class, type.getChatId());
 			if (!chat.getMembers().isEmpty()) {
 				for (UserAccount userAccount : chat.getMembers()) {
-					vo.getMembers().add(userAccountTransformer.populateVO(userAccount));
+					vo.getMembers().add(userTransformer.populateVO(userAccount));
 				}
 			}
 		} catch (Exception e) {

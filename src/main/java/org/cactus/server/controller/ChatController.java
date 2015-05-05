@@ -46,7 +46,7 @@ public class ChatController {
         Chat chat = chatService.getChat(chatID);
         Set<UserAccount> members = chat.getMembers();
 
-        Map<String, Object> headers = new HashMap<>();
+        Map<String, Object> headers = new HashMap<String, Object>();
         headers.put("chatID", String.valueOf(chatID));
 
         for (UserAccount user : members) {
