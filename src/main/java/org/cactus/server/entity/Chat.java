@@ -17,7 +17,10 @@ public class Chat implements Serializable {
 	@Column(name = "chatName")
 	private String chatName;
 
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ElementCollection
+	@JoinTable(name = "chat_users",
+	joinColumns = @JoinColumn(name = "chat_chatid"))
+	@Column(name = "members")
 	private Set<UserAccount> members = new HashSet<UserAccount>();
 
 	private String last_message;

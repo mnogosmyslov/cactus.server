@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.cactus.share.enums.UserAccountRoleEnum;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -18,12 +20,18 @@ public class UserAccount implements Serializable {
     private Long id;
 
     @Column(name = "email", nullable = false, unique = true)
+    @NotNull
+    @Pattern(regexp = "^([a-zA-Z0-9_\\-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z0-9\\-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$")
     private String email;
 
     @Column(name = "password")
+    @NotNull
+    @Pattern(regexp = "^(?=.*d)(?=.*[a-zA-Z]).{8,60}$")
     private String password;
 
     @Column(name = "login", unique = true)
+    @NotNull
+    @Pattern(regexp = "/^[a-zA-Z0-9]{4,10}$/")
     private String login;
 
     @Column(name = "name", nullable = true)
@@ -111,6 +119,7 @@ public class UserAccount implements Serializable {
         this.role = role;
     }
 
+    @JsonIgnore
     public Set<Long> getContacts() {
         return contacts;
     }

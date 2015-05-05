@@ -1,29 +1,37 @@
-package org.cactus.server.service.impl;
+package org.cactus.server.service;
 
 import org.cactus.server.entity.Chat;
 import org.cactus.server.repository.ChatRepository;
-import org.cactus.server.service.ChatService;
-import org.cactus.server.service.HibernateUtil;
+import org.cactus.server.transformer.ChatTransformer;
+import org.cactus.server.utils.service.RemoteService;
+import org.cactus.share.common.ServiceNames;
+import org.cactus.share.service.ChatService;
+import org.cactus.share.vo.ChatVO;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.math.BigInteger;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
 
-@Service
 @Transactional
-public class ChatServiceImpl implements ChatService {
-	private static final Logger log = Logger.getLogger(ChatServiceImpl.class.getName());
+@Service(ServiceNames.CHAT_SERVICE)
+@RemoteService(serviceInterface = ChatService.class)
+public class ChatVOServiceImpl implements ChatService {
+	private static final Logger log = Logger.getLogger(ChatVOServiceImpl.class.getName());
 
 	@Autowired
 	private ChatRepository chatRepository;
 
-	@Override
-	public void addChat(Chat chat) {
+	@Autowired
+	private ChatTransformer chatTransformer;
+
+	public void addChat(ChatVO chatVO) {
 //		log.log(Level.INFO, "Persisting Chat instance ...");
+		Chat chat = chatTransformer.transform(chatVO);
 
 		Session session = null;
 
@@ -44,28 +52,7 @@ public class ChatServiceImpl implements ChatService {
 		}
 	}
 
-	@Override
-	public void updateChat(Chat chat) {
-//		log.log(Level.INFO, "Updating Chat instance ...");
-		Session session = null;
-		try {
-			session = HibernateUtil.getSessionFactory().openSession();
-			session.beginTransaction();
-			session.update(chat);
-			session.getTransaction().commit();
-//			log.log(Level.INFO, "Updating Chat successful...");
-		} catch (Exception e) {
-			e.printStackTrace();
-//			log.log(Level.SEVERE, "Updating Chat failed...", e);
-		} finally {
-			if (session != null && session.isOpen()) {
-				session.close();
-			}
-		}
-	}
-
-	@Override
-	public Chat getChat(Long id) {
+	public ChatVO getChat(Long id) {
 //		log.log(Level.INFO, "Getting Chat instance ...");
 		Chat chat = null;
 		Session session = null;
@@ -81,25 +68,48 @@ public class ChatServiceImpl implements ChatService {
 				session.close();
 			}
 		}
-		return chat;
+
+		return chatTransformer.transform(chat);
 	}
 
-	@Override
-	public HashSet<Chat> getAllChats(Long userAccountId) {
-		HashSet<Long> listId = null;
-		HashSet<Chat> list = new HashSet<Chat>();
+	public HashSet<ChatVO> getAllChats(Long userAccountId) {
+		HashSet<ChatVO> listVO = new HashSet<ChatVO>();
+		Set<BigInteger> list = null;
+//		Set<Chat> listChat = new HashSet<Chat>();
 		try {
-			for (Long id : listId) {
-				list.add(getChat(id));
+			list = chatRepository.getChatsList(userAccountId);
+			if (!list.isEmpty()) {
+				for (BigInteger id : list) {
+					listVO.add(chatTransformer.transform(chatRepository.findOne(id.longValue())));
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		return list;
+		return listVO;
 	}
 
-	@Override
+	public void updateChat(ChatVO chatVO) {
+//		log.log(Level.INFO, "Updating Chat instance ...");
+		Session session = null;
+		try {
+			Chat chat = chatTransformer.transform(chatVO);
+			session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
+			session.update(chat);
+			session.getTransaction().commit();
+//			log.log(Level.INFO, "Updating Chat successful...");
+		} catch (Exception e) {
+			e.printStackTrace();
+//			log.log(Level.SEVERE, "Updating Chat failed...", e);
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+	}
+
 	public void deleteChat(Long id) {
 //		log.log(Level.INFO, "Deleting Chat instance ...");
 		Session session = null;

@@ -15,6 +15,7 @@ import org.springframework.util.Assert;
 
 import javax.transaction.Transactional;
 import java.sql.SQLException;
+import java.util.HashSet;
 import java.util.List;
 
 @Transactional
@@ -136,6 +137,26 @@ public class UserAccountServiceImpl implements UserAccountService {
 				session.close();
 			}
 		}
+	}
+
+	public HashSet getAllContacts(UserAccountVO userAccountVO) {
+		Session session = null;
+		HashSet<UserAccountVO> contacts = new HashSet<UserAccountVO>();
+
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			for (Long id : userAccountVO.getContacts()) {
+				contacts.add(userAccountTransformer.transform(userAccountRepository.findOne(id)));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+
+		return contacts;
 	}
 }
 

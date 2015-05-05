@@ -24,7 +24,4 @@ public interface UserAccountRepository extends JpaRepository<UserAccount, Long> 
 
 	@Query("select u from UserAccount u where u.login = :login and u.password = :password")
 	UserAccount getAuth(@Param("login") String login, @Param("password") String password);
-
-//	@Query("select u.contacts from UserAccount u where u.useraccount_id = :id")
-//	Set<Long> returnContacts(@Param("id") Long id);
 }
