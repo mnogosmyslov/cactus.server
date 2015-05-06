@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.HashSet;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -85,12 +87,15 @@ public class ChatServiceImpl implements ChatService {
 	}
 
 	@Override
-	public HashSet<Chat> getAllChats(Long userAccountId) {
-		HashSet<Long> listId = null;
-		HashSet<Chat> list = new HashSet<Chat>();
+	public ArrayList<Chat> getAllChats(Long userAccountId) {
+		ArrayList<Chat> list = new ArrayList<Chat>();
+		Set<BigInteger> tempList = null;
 		try {
-			for (Long id : listId) {
-				list.add(getChat(id));
+			tempList = chatRepository.getChatsList(userAccountId);
+			if (!list.isEmpty()) {
+				for (BigInteger id : tempList) {
+					list.add(chatRepository.findOne(id.longValue()));
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
