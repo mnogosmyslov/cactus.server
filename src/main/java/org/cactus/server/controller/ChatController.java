@@ -63,6 +63,8 @@ public class ChatController {
 	        message.setId(history.getHistoryOfContent().size());
 	        history.getHistoryOfContent().add(messageTransformer.transform(message));
 	        historyService.updateHistory(history);
+	        chat.setLast_message(messageTransformer.transform(message));
+	        chatService.updateChat(chat);
 
             messagingTemplate.convertAndSend("/chat/" + user.getLogin(), message, headers);
         }

@@ -20,7 +20,8 @@ public class Chat implements Serializable {
 	@ManyToMany
 	private Set<UserAccount> members = new HashSet<UserAccount>();
 
-	private String last_message;
+	@Column(name = "last_message")
+	private Message last_message;
 
 	@Column(name = "secure")
 	private boolean secure;
@@ -52,11 +53,11 @@ public class Chat implements Serializable {
 		this.members = members;
 	}
 
-	public String getLast_message() {
+	public Message getLast_message() {
 		return last_message;
 	}
 
-	public void setLast_message(String last_message) {
+	public void setLast_message(Message last_message) {
 		this.last_message = last_message;
 	}
 

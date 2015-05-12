@@ -13,14 +13,17 @@ import org.springframework.stereotype.Component;
 public class ChatTransformer extends AbstractTransformer<Chat, ChatVO> {
 
 	@Autowired
-	UserTransformer userTransformer;
+	private UserTransformer userTransformer;
+
+	@Autowired
+	private MessageTransformer messageTransformer;
 
 	@Override
 	protected Chat populateType (ChatVO vo) {
 		Chat type = new Chat();
 		type.setChatId(vo.getChatId());
 		type.setChatName(vo.getChatName());
-		type.setLast_message(vo.getLast_message());
+		type.setLast_message(messageTransformer.populateType(vo.getLast_message()));
 		type.setSecure(vo.isSecure());
 
 		if (!vo.getMembers().isEmpty()) {
@@ -37,7 +40,7 @@ public class ChatTransformer extends AbstractTransformer<Chat, ChatVO> {
 		ChatVO vo = new ChatVO();
 		vo.setChatId(type.getChatId());
 		vo.setChatName(type.getChatName());
-		vo.setLast_message(type.getLast_message());
+		vo.setLast_message(messageTransformer.populateVO(type.getLast_message()));
 		vo.setSecure(type.isSecure());
 
 		Session session = null;
