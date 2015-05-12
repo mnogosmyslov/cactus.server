@@ -122,8 +122,7 @@ public class ChatServiceImpl implements ChatService {
 			list = chatRepository.getChatList(userAccountId);
 			if (!list.isEmpty()) {
 				for (BigInteger id : list) {
-					chat = getChat(id.longValue());
-					listVO.add(chatTransformer.transform(chat));
+					listVO.add(chatTransformer.transform(getChat(id.longValue())));
 				}
 			}
 		} catch (Exception e) {
