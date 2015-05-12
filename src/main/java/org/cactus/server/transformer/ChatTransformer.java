@@ -23,7 +23,7 @@ public class ChatTransformer extends AbstractTransformer<Chat, ChatVO> {
 		Chat type = new Chat();
 		type.setChatId(vo.getChatId());
 		type.setChatName(vo.getChatName());
-		type.setLast_message(messageTransformer.populateType(vo.getLast_message()));
+
 		type.setSecure(vo.isSecure());
 
 		if (!vo.getMembers().isEmpty()) {
@@ -32,20 +32,25 @@ public class ChatTransformer extends AbstractTransformer<Chat, ChatVO> {
 			}
 		}
 
+		try {
+			type.setLast_message(messageTransformer.populateType(vo.getLast_message()));
+		} catch (NullPointerException nu) {
+			nu.printStackTrace();
+		}
+
 		return type;
 	}
 
 	@Override
 	protected ChatVO populateVO (Chat type) {
 		ChatVO vo = new ChatVO();
-		vo.setChatId(type.getChatId());
-		vo.setChatName(type.getChatName());
-		vo.setLast_message(messageTransformer.populateVO(type.getLast_message()));
-		vo.setSecure(type.isSecure());
 
 		Session session = null;
 
 		try {
+			vo.setChatId(type.getChatId());
+			vo.setChatName(type.getChatName());
+			vo.setSecure(type.isSecure());
 			session = HibernateUtil.getSessionFactory().openSession();
 			Chat chat = (Chat) session.get(Chat.class, type.getChatId());
 			if (!chat.getMembers().isEmpty()) {
@@ -53,6 +58,13 @@ public class ChatTransformer extends AbstractTransformer<Chat, ChatVO> {
 					vo.getMembers().add(userTransformer.populateVO(userAccount));
 				}
 			}
+
+			try {
+				vo.setLast_message(messageTransformer.populateVO(type.getLast_message()));
+			} catch (NullPointerException nu) {
+				nu.printStackTrace();
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

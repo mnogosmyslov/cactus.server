@@ -117,11 +117,13 @@ public class ChatServiceImpl implements ChatService {
 	public HashSet<ChatVO> getAllChatsVO(Long userAccountId) {
 		HashSet<ChatVO> listVO = new HashSet<ChatVO>();
 		HashSet<BigInteger> list = null;
+		Chat chat = null;
 		try {
 			list = chatRepository.getChatList(userAccountId);
 			if (!list.isEmpty()) {
 				for (BigInteger id : list) {
-					listVO.add(chatTransformer.transform(chatRepository.findOne(id.longValue())));
+					chat = getChat(id.longValue());
+					listVO.add(chatTransformer.transform(chat));
 				}
 			}
 		} catch (Exception e) {
