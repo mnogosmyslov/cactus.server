@@ -3,6 +3,7 @@ package org.cactus.server.service.impl;
 import com.mongodb.WriteResult;
 import org.cactus.server.entity.Message;
 import org.cactus.server.service.MessageService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -10,7 +11,9 @@ import org.springframework.data.mongodb.core.query.Query;
 
 public class MessageServiceImpl implements MessageService {
 
-	private MongoOperations mongoOps;
+	@Autowired
+	private MongoTemplate mongoTemplate;
+	private MongoOperations mongoOps = mongoTemplate;
 	private static final String MESSAGE_COLLECTION = "Message";
 
 	public MessageServiceImpl(MongoTemplate mongoOps) {

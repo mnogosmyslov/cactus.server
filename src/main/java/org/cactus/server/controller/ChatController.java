@@ -2,8 +2,11 @@ package org.cactus.server.controller;
 
 import org.cactus.server.api.ChatApi;
 import org.cactus.server.entity.Chat;
+import org.cactus.server.entity.History;
 import org.cactus.server.entity.UserAccount;
 import org.cactus.server.service.ChatService;
+import org.cactus.server.service.HistoryService;
+import org.cactus.server.transformer.MessageTransformer;
 import org.cactus.share.vo.MessageVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -23,6 +26,12 @@ public class ChatController {
 
     @Autowired
     private ChatService chatService;
+
+	@Autowired
+	private HistoryService historyService;
+
+	@Autowired
+	private MessageTransformer messageTransformer;
 
     private final SimpMessageSendingOperations messagingTemplate;
     private List<String> chats = new ArrayList<String>();
@@ -50,6 +59,11 @@ public class ChatController {
         headers.put("chatID", String.valueOf(chatID));
 
         for (UserAccount user : members) {
+	        History history = historyService.readById(chatID + "_" + user.getId());
+	        message.setId(history.getHistoryOfContent().size());
+	        history.getHistoryOfContent().add(messageTransformer.transform(message));
+	        historyService.updateHistory(history);
+
             messagingTemplate.convertAndSend("/chat/" + user.getLogin(), message, headers);
         }
 

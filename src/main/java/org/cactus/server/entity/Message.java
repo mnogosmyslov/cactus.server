@@ -3,16 +3,13 @@ package org.cactus.server.entity;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import javax.persistence.Id;
+import java.io.Serializable;
 
 @Document(collection = "Message")
-public class Message {
+public class Message implements Serializable {
 
-	@Id
-	private String id;
-
-	@Field("messageId")
-	private int messageId;
+	@Field("id")
+	private long id;
 
 	@Field("authorId")
 	private long authorId;
@@ -40,20 +37,12 @@ public class Message {
 		this.viewed = viewed;
 	}
 
-	public String getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(long id) {
 		this.id = id;
-	}
-
-	public int getMessageId() {
-		return messageId;
-	}
-
-	public void setMessageId(int messageId) {
-		this.messageId = messageId;
 	}
 
 	public long getAuthorId() {

@@ -4,6 +4,8 @@ import org.cactus.server.entity.Chat;
 import org.cactus.server.repository.ChatRepository;
 import org.cactus.server.service.ChatService;
 import org.cactus.server.service.HibernateUtil;
+import org.cactus.server.transformer.ChatTransformer;
+import org.cactus.share.vo.ChatVO;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,8 +13,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.HashSet;
 import java.util.logging.Logger;
 
 @Service
@@ -22,6 +23,9 @@ public class ChatServiceImpl implements ChatService {
 
 	@Autowired
 	private ChatRepository chatRepository;
+
+	@Autowired
+	private ChatTransformer chatTransformer;
 
 	@Override
 	public void addChat(Chat chat) {
@@ -87,21 +91,44 @@ public class ChatServiceImpl implements ChatService {
 	}
 
 	@Override
-	public ArrayList<Chat> getAllChats(Long userAccountId) {
-		ArrayList<Chat> list = new ArrayList<Chat>();
-		Set<BigInteger> tempList = null;
+	public HashSet<Chat> getAllChats(Long userAccountId) {
+		HashSet<Chat> list = new HashSet<Chat>();
+		HashSet<BigInteger> tempList = null;
+		Session session = null;
 		try {
-			tempList = chatRepository.getChatsList(userAccountId);
-			if (!list.isEmpty()) {
+			session = HibernateUtil.getSessionFactory().openSession();
+			tempList = chatRepository.getChatList(userAccountId);
+			if (!tempList.isEmpty()) {
 				for (BigInteger id : tempList) {
-					list.add(chatRepository.findOne(id.longValue()));
+					list.add(getChat(id.longValue()));
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+
+		return list;
+	}
+
+	public HashSet<ChatVO> getAllChatsVO(Long userAccountId) {
+		HashSet<ChatVO> listVO = new HashSet<ChatVO>();
+		HashSet<BigInteger> list = null;
+		try {
+			list = chatRepository.getChatList(userAccountId);
+			if (!list.isEmpty()) {
+				for (BigInteger id : list) {
+					listVO.add(chatTransformer.transform(chatRepository.findOne(id.longValue())));
 				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		return list;
+		return listVO;
 	}
 
 	@Override

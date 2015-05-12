@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import java.util.ArrayList;
 import java.util.List;
 
-@Document
+@Document(collection = "History")
 public class History {
 
 	@Id

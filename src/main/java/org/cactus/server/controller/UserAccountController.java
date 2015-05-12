@@ -3,6 +3,7 @@ package org.cactus.server.controller;
 import org.cactus.server.api.UserAccountApi;
 import org.cactus.server.entity.UserAccount;
 import org.cactus.server.service.UserService;
+import org.cactus.server.service.ChatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping(UserAccountApi.USER)
@@ -19,6 +21,9 @@ public class UserAccountController {
 
     @Autowired
     private UserService userAccountService;
+
+	@Autowired
+	private ChatService chatService;
 
     @ResponseBody
     @RequestMapping(value = "/search/{login}", method = RequestMethod.POST)
@@ -78,6 +83,11 @@ public class UserAccountController {
         } else {
             return new ResponseEntity<UserAccount>(HttpStatus.UNAUTHORIZED);
         }
-
     }
+
+	@ResponseBody
+	@RequestMapping(value = UserAccountApi.BY_ID + "/chats", method = RequestMethod.GET, headers = "Accept=application/json")
+	public Set getAllUser(@PathVariable long id) {
+		return chatService.getAllChatsVO(id);
+	}
 }

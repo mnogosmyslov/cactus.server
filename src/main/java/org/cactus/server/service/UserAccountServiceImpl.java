@@ -1,8 +1,10 @@
 package org.cactus.server.service;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.cactus.server.entity.Chat;
 import org.cactus.server.entity.UserAccount;
 import org.cactus.server.repository.UserAccountRepository;
+import org.cactus.server.service.impl.ChatServiceImpl;
 import org.cactus.server.transformer.UserAccountTransformer;
 import org.cactus.server.transformer.UserTransformer;
 import org.cactus.server.utils.service.RemoteService;
@@ -19,6 +21,7 @@ import javax.transaction.Transactional;
 import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Transactional
 @Service(ServiceNames.USER_ACCOUNT_SERVICE)
@@ -124,23 +127,36 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
 
 	@Override
-	public void addContact(long id, String login) {
+	public boolean addContact(long id, String login) {
 
+		HashSet<UserVO> resultSet = new HashSet<UserVO>();
 		Session session = null;
+		boolean repeat = false;
 
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
 			UserAccount userAccount = (UserAccount) session.get(UserAccount.class, id);
-			userAccount.getContacts().add(userAccountRepository.findByLogin(login).getId());
-
-//			two-sided added contact
 			UserAccount userAccount2 = (UserAccount) session.get(UserAccount.class, userAccountRepository.findByLogin(login).getId());
-			userAccount2.getContacts().add(id);
 
-			session.beginTransaction();
-			session.update(userAccount);
-			session.update(userAccount2);
-			session.getTransaction().commit();
+			for (Long contactId : userAccount.getContacts()) {
+				if (contactId.equals(userAccount2.getId())) {
+					repeat = true;
+					break;
+				}
+			}
+
+			if (!repeat) {
+				userAccount.getContacts().add(userAccountRepository.findByLogin(login).getId());
+				userAccount2.getContacts().add(id);
+
+				resultSet.add(userTransformer.transform(userAccount));
+				resultSet.add(userTransformer.transform(userAccount2));
+
+				session.beginTransaction();
+				session.update(userAccount);
+				session.update(userAccount2);
+				session.getTransaction().commit();
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -148,6 +164,8 @@ public class UserAccountServiceImpl implements UserAccountService {
 				session.close();
 			}
 		}
+
+		return repeat;
 	}
 
 	public HashSet getAllContacts(UserVO userVO) {
