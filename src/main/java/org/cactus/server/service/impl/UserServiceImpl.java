@@ -2,6 +2,7 @@ package org.cactus.server.service.impl;
 
 import org.cactus.server.entity.UserAccount;
 import org.cactus.server.repository.UserAccountRepository;
+import org.cactus.server.security.LoggedInChecker;
 import org.cactus.server.service.HibernateUtil;
 import org.cactus.server.service.UserService;
 import org.hibernate.Session;
@@ -11,11 +12,19 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
+
+    private final LoggedInChecker loggedInChecker;
+
+    @Autowired
+    UserServiceImpl(LoggedInChecker loggedInChecker) {
+        this.loggedInChecker = loggedInChecker;
+    }
 
     @Autowired
     private UserAccountRepository userAccountRepository;
@@ -85,5 +94,15 @@ public class UserServiceImpl implements UserService {
         UserAccount userAccount = userAccountRepository.getAuth(login, password);
 
         return userAccount;
+    }
+
+    @Override
+    public List<String> getPermissions(String username) {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public Boolean isCurrentUserLoggedIn() {
+        return loggedInChecker.getLoggedInUser() != null;
     }
 }

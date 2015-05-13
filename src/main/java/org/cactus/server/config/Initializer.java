@@ -1,6 +1,9 @@
 package org.cactus.server.config;
 
+import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+
+import javax.servlet.Filter;
 
 public class Initializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
@@ -12,6 +15,7 @@ public class Initializer extends AbstractAnnotationConfigDispatcherServletInitia
                 RemountingServicesConfig.class,
                 WebConfig.class,
                 WebSocketConfig.class,
+                WebSecurityConfig.class,
                 MongoConfig.class
         };
     }
@@ -19,12 +23,20 @@ public class Initializer extends AbstractAnnotationConfigDispatcherServletInitia
     @Override
     protected Class<?>[] getServletConfigClasses() {
         return new Class<?>[] {
-                WebConfig.class
+                WebConfig.class,
+                WebSecurityConfig.class
         };
     }
 
     @Override
     protected String[] getServletMappings() {
         return new String[] {"/"};
+    }
+
+    @Override
+    protected Filter[] getServletFilters() {
+        return new Filter[] {
+                new DelegatingFilterProxy("springSecurityFilterChain")
+        };
     }
 }

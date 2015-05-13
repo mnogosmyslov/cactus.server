@@ -15,5 +15,7 @@ public interface UserService {
     void deleteUserAccount(long id) throws SQLException;
     List getAllUserAccount();
     UserAccount getAuthUser(String login, String password);
+    List<String> getPermissions(String username);
+    Boolean isCurrentUserLoggedIn();
 
 }

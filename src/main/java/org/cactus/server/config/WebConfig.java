@@ -1,7 +1,6 @@
 package org.cactus.server.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.hibernate4.Hibernate4Module;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -16,7 +15,7 @@ import java.util.List;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan("org.cactus")
+@ComponentScan("org.cactus.server")
 public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Override
@@ -36,18 +35,12 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        converters.add(jacksonMessageConverter());
-        super.configureMessageConverters(converters);
+        converters.add(jacksonConverter());
     }
 
-    public MappingJackson2HttpMessageConverter jacksonMessageConverter(){
-        MappingJackson2HttpMessageConverter messageConverter = new MappingJackson2HttpMessageConverter();
-
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.registerModule(new Hibernate4Module());
-
-        messageConverter.setObjectMapper(mapper);
-        return messageConverter;
+    @Bean
+    MappingJackson2HttpMessageConverter jacksonConverter() {
+        return new MappingJackson2HttpMessageConverter();
     }
 
 }
