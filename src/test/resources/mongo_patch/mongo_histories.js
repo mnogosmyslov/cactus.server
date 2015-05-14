@@ -1,5 +1,3 @@
-//> use cactusdb
-
 db.History.insert({
     "_id" : "1_1",
     "_class" : "org.cactus.server.entity.History",
