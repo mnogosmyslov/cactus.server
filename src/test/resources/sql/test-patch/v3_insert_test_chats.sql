@@ -1,19 +1,19 @@
 INSERT INTO chat(chatid, secure) VALUES(
-    100,
+    1,
     'false'
 );
 
 INSERT INTO chat(chatid, secure) VALUES(
-    102,
+    2,
     'false'
 );
 
 INSERT INTO chat(chatid, secure) VALUES(
-    101,
+    3,
     'false'
 );
 
-INSERT INTO chat(chatid, secure) VALUES(
-    103,
-    'false'
-);
+-- INSERT INTO chat(chatid, secure) VALUES(
+--     103,
+--     'false'
+-- );
