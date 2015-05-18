@@ -4,6 +4,7 @@ import org.cactus.server.entity.UserAccount;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Set;
 
 public interface UserService {
 
@@ -17,5 +18,5 @@ public interface UserService {
     UserAccount getAuthUser(String login, String password);
     List<String> getPermissions(String username);
     Boolean isCurrentUserLoggedIn();
-
+	Set getAllContacts(long id);
 }

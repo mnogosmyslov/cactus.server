@@ -1,10 +1,8 @@
 package org.cactus.server.service;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import org.cactus.server.entity.Chat;
 import org.cactus.server.entity.UserAccount;
 import org.cactus.server.repository.UserAccountRepository;
-import org.cactus.server.service.impl.ChatServiceImpl;
 import org.cactus.server.transformer.UserAccountTransformer;
 import org.cactus.server.transformer.UserTransformer;
 import org.cactus.server.utils.service.RemoteService;
@@ -21,7 +19,6 @@ import javax.transaction.Transactional;
 import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Transactional
 @Service(ServiceNames.USER_ACCOUNT_SERVICE)

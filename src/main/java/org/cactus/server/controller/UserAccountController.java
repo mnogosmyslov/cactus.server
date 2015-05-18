@@ -2,8 +2,8 @@ package org.cactus.server.controller;
 
 import org.cactus.server.api.UserAccountApi;
 import org.cactus.server.entity.UserAccount;
-import org.cactus.server.service.UserService;
 import org.cactus.server.service.ChatService;
+import org.cactus.server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -84,6 +84,12 @@ public class UserAccountController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
+
+	@ResponseBody
+	@RequestMapping(value = UserAccountApi.BY_ID + "/contacts", method = RequestMethod.GET, headers = "Accept=application/json")
+	public Set getAllUserContacts(@PathVariable long id) {
+		return userAccountService.getAllContacts(id);
+	}
 
 	@ResponseBody
 	@RequestMapping(value = UserAccountApi.BY_ID + "/chats", method = RequestMethod.GET, headers = "Accept=application/json")

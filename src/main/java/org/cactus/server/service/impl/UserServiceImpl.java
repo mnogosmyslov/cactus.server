@@ -5,6 +5,8 @@ import org.cactus.server.repository.UserAccountRepository;
 import org.cactus.server.security.LoggedInChecker;
 import org.cactus.server.service.HibernateUtil;
 import org.cactus.server.service.UserService;
+import org.cactus.server.transformer.UserAccountTransformer;
+import org.cactus.share.vo.UserVO;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +15,9 @@ import org.springframework.util.Assert;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -28,6 +32,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserAccountRepository userAccountRepository;
+
+	@Autowired
+	private UserAccountTransformer userAccountTransformer;
 
     @Override
     public UserAccount getAccount(String email) {
@@ -105,4 +112,25 @@ public class UserServiceImpl implements UserService {
     public Boolean isCurrentUserLoggedIn() {
         return loggedInChecker.getLoggedInUser() != null;
     }
+
+	public Set getAllContacts(long userId) {
+		Session session = null;
+		Set<UserVO> contacts = new HashSet<>();
+
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			UserAccount userAccount = (UserAccount) session.get(UserAccount.class, userId);
+			for (Long id : userAccount.getContacts()) {
+				contacts.add(userAccountTransformer.transform(userAccountRepository.findOne(id)));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+
+		return contacts;
+	}
 }
